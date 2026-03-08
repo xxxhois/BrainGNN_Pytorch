@@ -35,8 +35,11 @@ from sklearn.preprocessing import StandardScaler
 warnings.filterwarnings("ignore")
 
 # Input data variables
-
-root_folder = '/home/azureuser/projects/BrainGNN/data/'
+# 使用相对路径，从项目根目录开始
+import os
+script_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(script_dir)
+root_folder = os.path.join(project_root, 'data')
 data_folder = os.path.join(root_folder, 'ABIDE_pcp/cpac/filt_noglobal')
 phenotype = os.path.join(root_folder, 'ABIDE_pcp/Phenotypic_V1_0b_preprocessed1.csv')
 

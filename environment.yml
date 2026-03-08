@@ -1,0 +1,48 @@
+name: braingnn
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.8
+  - pip
+  - pip:
+      # PyTorch (CUDA 11.7)
+      - torch==1.13.1
+      - torchvision==0.14.1
+      
+      # PyTorch Geometric
+      - torch-geometric
+      - torch-scatter
+      - torch-sparse
+      - torch-cluster
+      - torch-spline-conv
+      
+      # Scientific Computing
+      - numpy<1.24.0
+      - pandas
+      - scipy
+      - scikit-learn
+      
+      # Brain Imaging
+      - nibabel>=3.2.0
+      - nilearn>=0.7.0
+      
+      # Data Storage
+      - h5py
+      - deepdish>=0.3.6
+      
+      # Graph Processing
+      - networkx<3.0
+      
+      # Visualization
+      - matplotlib
+      - seaborn
+      - tensorboardX>=2.2
+      
+      # Utilities
+      - tqdm
+      - numba
+      - python-louvain
+      - googledrivedownloader

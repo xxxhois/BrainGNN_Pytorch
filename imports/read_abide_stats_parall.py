@@ -77,23 +77,29 @@ def read_data(data_dir):
     y_list = []
     edge_att_list, edge_index_list,att_list = [], [], []
 
-    # parallar computing
-    cores = multiprocessing.cpu_count()
-    pool = multiprocessing.Pool(processes=cores)
-    #pool =  MyPool(processes = cores)
-    func = partial(read_sigle_data, data_dir)
-
+    # 获取CPU核心数，但在Windows上限制为1以避免多进程问题
+    cores = 1 if os.name == 'nt' else multiprocessing.cpu_count()
+    
     import timeit
-
     start = timeit.default_timer()
 
-    res = pool.map(func, onlyfiles)
-
-    pool.close()
-    pool.join()
+    if cores > 1:
+        # 并行处理（仅在非Windows系统）
+        pool = multiprocessing.Pool(processes=cores)
+        func = partial(read_sigle_data, data_dir)
+        res = pool.map(func, onlyfiles)
+        pool.close()
+        pool.join()
+    else:
+        # 串行处理（Windows或单核）
+        print(f"Processing {len(onlyfiles)} files sequentially...")
+        res = []
+        for i, f in enumerate(onlyfiles):
+            if i % 100 == 0:
+                print(f"  Processed {i}/{len(onlyfiles)} files...")
+            res.append(read_sigle_data(data_dir, f))
 
     stop = timeit.default_timer()
-
     print('Time: ', stop - start)
 
 
